@@ -1,0 +1,18 @@
+<h3 class="col-12 text-center">Espace de discussion</h3>
+{% if is_granted('ROLE_USER') %}
+  <form action="{{ path("leave_comment", {"trick_id": trick.id}) }}" class="col-8 offset-2 tchat-form" id="tchat_form" method="POST">
+      <div class="form-group row">
+        <input type="text" class="form-control col-8" id="tchat_content" name="tchat_content">
+        <input type="submit" class="btn btn-primary col-4" id="tchat_submit" name="tchat_submit" value="Laisser un commentaire">
+      </div>
+  </form>
+{% endif %}
+{% for tchat in trick.tchats %}
+  <div class="col-12 tchat py-3 mb-3 mx-3">
+    <div class="row">
+      <p class="meta author col-3">Posté par <span class="badge badge-info">{{ tchat.user.username }}</span></p>
+      <p class="meta creation-date col-3">Écrit le <span class="badge badge-info">{{ tchat.createdAt | date("m/d/Y \\à H:i") }}</span></p>
+    </div>
+    <p class="col-12">{{ tchat.content }}</p>
+  </div>
+{% endfor %}
