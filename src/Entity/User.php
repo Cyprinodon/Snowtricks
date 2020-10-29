@@ -8,10 +8,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
+ * @UniqueEntity(fields={"username"}, message="Un compte à ce nom existe déjà. Veuillez en choisir un autre.", groups={"registration"})
  */
 class User implements UserInterface
 {
@@ -44,14 +45,16 @@ class User implements UserInterface
     private $tricks;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $photoUrl;
-
-    /**
      * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user")
      */
     private $messages;
+
+    /**
+     * @Assert\NotBlank(message="Veuillez remplir ce champ.", groups={"registration"})
+     * @Assert\Email(message="Veuillez entrer une adresse mail valide.", groups={"registration"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
 
     public function __construct()
     {
@@ -163,18 +166,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPhotoUrl(): ?string
-    {
-        return $this->photoUrl;
-    }
-
-    public function setPhotoUrl(?string $photoUrl): self
-    {
-        $this->photoUrl = $photoUrl;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Message[]
      */
@@ -202,6 +193,18 @@ class User implements UserInterface
                 $message->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

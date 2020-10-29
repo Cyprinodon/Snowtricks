@@ -1,64 +1,52 @@
-{% extends 'base.html.twig' %}
+{% extends 'frame.html.twig' %}
 
 {% block body_class %}
-class="banner-bg"
+    class="banner-bg"
 {% endblock %}
 
 {% block modals %}
-  {% include "home/modalDelete.html.twig" %}
-  {% include "home/modalMedia.html.twig" %}
+    {% include "home/modals/delete.html.twig" %}
 {% endblock %}
 
 {% block body %}
-  <div class="opaque container">
-    <div class="row pt-3">
-      <article class="trick col-12">
-        <div class="trick-header">
-          <h2 class="trick-title">{{ trick.name }}</h2>
-            {% if trick.images.first %}
-            <img src="{{ trick.images.first.link }}" class="img-fluid mx-auto d-block w-100 featured-image mb-3" alt="{{ trick.images.first.alt }}" {% if trick.images.first.title != null %}title="{{ trick.images.first.title }}"{% endif %}>
-            {% endif %}
-        </div>
-        <div class="row media-gallery">
-        {% for image in trick.images %}
-          <div class="col-2 no-gutters">
-            <img src="{{ image.link }}" class="col" alt="{{ image.alt }}" {% if image.title != null %}title="{{ image.title }}"{% endif %}>
-            {% if is_granted('ROLE_USER') %}
-            <div class="edit-section">
-              <a href="{{ path('edit_media', {'mediaId': image.id, 'trickId': trick.id}) }}"><i class="fas fa-pen"></i></a>
-              <a href="{{ path('remove_media', {'mediaId': image.id, 'trickId': trick.id}) }}"><i class="fas fa-trash-alt"></i></a>
+    <div class="row justify-content-center no-gutters">
+        <article class="col-auto trick">
+            {# En-tête de la figure contenant l'image de garde et le titre #}
+            {% include 'trick/blocks/trickHeader.html.twig' %}
+            {# Formulaire d'édition des données de la figure #}
+             <div class="row trick-content justify-content-center mt-4">
+                <h2>Édition de la figure</h2>
+                 {#{% form_theme form '_imageForm.html.twig' %}#}
+                {{ form_start(form, {'method': 'POST', 'attr': {'class': "col-10 pb-3"}}) }}
+                <div class="row">
+                    <div class="col">{{ form_row(form.name) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col">{{ form_row(form.description, {'attr': {'rows': "10"}}) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">{{ form_row(form.category) }}</div>
+                </div>
+                <div class="row images">
+                  {% include 'trick/blocks/imageFormCollection.html.twig' %}
+                </div>
+                <div class="row videos">
+                  {% include 'trick/blocks/videoFormCollection.html.twig' %}
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <button type="submit" class="btn btn-primary">Modifier la figure</button>
+                    </div>
+                </div>
+                {{ form_end(form) }}
             </div>
-            {% endif %}
-            </div>
-        {% endfor %}
-          <div class="col-2 no-gutters">
-            <a class="upload-button" href="{{ path('add_media', {'id': trick.id}) }}"><i class="fas fa-plus-circle"></i></a>
-          </div>
-        </div>
-        <div class="row trick-content justify-content-center mt-4">
-          <h2>Édition de la figure</h2>
-          {{ form_start(form, {'method': 'POST', 'attr': {'class': "col-10 pb-3"}}) }}
-            <div class="error col">
-              {{ form_errors(form) }}
-            </div>
-            <div class="col">
-              {{ form_row(form.name) }}
-            </div>
-            <div class="col">
-              {{ form_row(form.description, {'attr': {'rows': "10"}}) }}
-            </div>
-            <div class="col-4">
-              {{ form_row(form.category) }}
-            </div>
-            <button type="button" class="btn btn-alert" data-toggle="modal" data-target="#modal_delete" data-controller-path="{{ path('remove_trick', {'id': trick.id}) }}">Supprimer</button>
-            {{ form_widget(form.save) }}
-          {{ form_end(form) }}
-        </div>
-      </article>
+        </article>
     </div>
-  </div>
 {% endblock %}
 
-{% block javascript %}
-  <script src="{{ asset('js/modal_delete.js') }}"></script>
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/modal_delete.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(js_path ~ '/formBuilder.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(js_path ~ '/BehavioralManager.js') }}"></script>
+    <script type="text/javascript" src="{{ asset(js_path ~ '/imageForm_behaviors.js') }}"></script>
 {% endblock %}

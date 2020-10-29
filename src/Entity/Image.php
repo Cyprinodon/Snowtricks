@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
@@ -18,26 +20,28 @@ class Image
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $url;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $filename;
 
     /**
-     * @ORM\Column(type="string", length=15)
+     * @Assert\File(maxSize="2048", mimeTypes={"image/png","image/jpg"}, mimeTypesMessage="Seules les images au format PNG ou JPEG sont acceptées." )
      */
-    private $extension;
+    private $file;
 
     /**
+     * @ORM\Column(type="string", length=15)
+     */
+    private $extension; //ToBeRemoved
+
+    /**
+     * @Assert\GreaterThanOrEqual(0)
      * @ORM\Column(type="integer", nullable=true)
      */
     private $height;
 
     /**
+     * @Assert\GreaterThanOrEqual(0)
      * @ORM\Column(type="integer", nullable=true)
      */
     private $width;
@@ -68,14 +72,14 @@ class Image
         return $this->id;
     }
 
-    public function getUrl(): ?string
+    public function getFile(): UploadedFile
     {
-        return $this->url;
+        return $this->file;
     }
 
-    public function setUrl(string $url): self
+    public function setFile(UploadedFile $file): self
     {
-        $this->url = $url;
+        $this->file = $file;
 
         return $this;
     }

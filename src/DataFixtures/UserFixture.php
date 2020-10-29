@@ -17,10 +17,12 @@ class UserFixture extends BaseFixture
       $this->users = [
           [
               "username" => "Administrateur",
+              "email" => "dimitri.grabette@gmail.com",
               "password" => "admin",
               "roles" => ["ROLE_ADMIN"]
           ],[
               "username" => "Trickstar101",
+              "email" => "ocdummy.user@gmail.com",
               "password" => "MotDePasseSuperSolide",
               "roles" => ["ROLE_USER"]
           ]
@@ -34,6 +36,7 @@ class UserFixture extends BaseFixture
     {
       $user = new User();
       $user->setUsername($userData["username"]);
+      $user->setEmail($userData["email"]);
       $password = $this->encoder->encodePassword($user, $userData["password"]);
       $user->setPassword($password);
       $user->setRoles($userData["roles"]);

@@ -1,6 +1,7 @@
 {% extends 'formWrapper.html.twig' %}
 
 {% block form %}
-    <h2 class="mb-5">Enregistrement effectué !</h2>
+    <h2 class="mb-5">{{ block_title }}</h2>
+    <p>{{ message }}</p>
     <a href="{{ path('home') }}" class="btn btn-primary">Retourner à la page d'accueil</a>
 {% endblock %}
