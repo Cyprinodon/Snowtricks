@@ -4,18 +4,15 @@ namespace App\DataFixtures;
 
 use App\Entity\Trick;
 use App\Entity\Category;
-use App\Services\Slugger;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class TrickFixture extends BaseFixture implements DependentFixtureInterface
 {
     private $tricks;
-    private $slugger;
 
     public function __construct()
     {
-        $this->slugger = new Slugger();
         $this->tricks = [[
             "name" => "Backside Triple Cork 1440",
             "description" => "En langage snowboard, un cork est une rotation horizontale plus ou moins désaxée, selon un mouvement d'épaules effectué juste au moment du saut. Le tout premier Triple Cork a été plaqué par Mark McMorris en 2011, lequel a récidivé lors des Winter X Games 2012... avant de se faire voler la vedette par Torstein Horgmo, lors de ce même championnat. Le Norvégien réalisa son propre Backside Triple Cork 1440 et obtint la note parfaite de 50/50.",
@@ -47,7 +44,6 @@ class TrickFixture extends BaseFixture implements DependentFixtureInterface
         $category = $this->getReference($trickData["category"]);
         $user = $this->getReference("User-".rand(0, parent::MAX_USER_INDEX));
         $trick->setName($trickData["name"]);
-        $trick->setSlug($this->slugger->slug($trickData["name"]));
         $trick->setDescription($trickData["description"]);
         $trick->setCategory($category);
         $trick->setUser($user);

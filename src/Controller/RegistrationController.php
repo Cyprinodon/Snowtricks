@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,23 +13,16 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/enregistrement", name="app_register")
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @return Response
+     * @Route("/register", name="app_register")
      */
-    public function register(
-        Request $request,
-        EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $form = $this->createForm(RegistrationFormType::class);
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-
+            // encode the plain password
             $user->setPassword(
                 $passwordEncoder->encodePassword(
                     $user,
@@ -38,13 +30,13 @@ class RegistrationController extends AbstractController
                 )
             );
 
-            $user->setRoles(['ROLE_USER']);
-
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success',"Votre enregistrement a bien été effectué.");
-            return $this->redirectToRoute('home');
+            // do anything else you need here, like send an email
+
+            return $this->redirectToRoute('');
         }
 
         return $this->render('registration/register.html.twig', [

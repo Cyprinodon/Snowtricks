@@ -14,14 +14,40 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class UsernameType extends AbstractType
+class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('username', TextType::class, [
-                'label' => "pseudonyme",
-            ]);
+                'label' => 'pseudonyme',
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'e-mail',
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer une adresse mail.'
+                    ]),
+                ]
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                // instead of being set onto the object directly,
+                // this is read and encoded in the controller
+                'label' => 'mot de passe',
+                'mapped' => false,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez entrer un mot de passe.',
+                    ]),
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Votre mot de passe doit faire au moins {{ limit }} caractères.',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
