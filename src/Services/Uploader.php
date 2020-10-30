@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -28,11 +26,9 @@ class Uploader
         $fileExtension = $file->getExtension();
         $safeFileName = $this->slugger->slug($fileName) . '-' . uniqid();
 
-        try
-        {
+        try {
             $file->move($this->directory, $safeFileName . '.' . $fileExtension);
-        } catch (FileException $error)
-        {
+        } catch (FileException $error) {
             //Gérer l'erreur ...
             //envoyer un message flash
         }
@@ -46,8 +42,7 @@ class Uploader
     {
         try {
             $this->fileSystem->remove($filePath);
-        } catch(IOException $exception)
-        {
+        } catch (IOException $exception) {
             //Générer un message flash
         }
     }

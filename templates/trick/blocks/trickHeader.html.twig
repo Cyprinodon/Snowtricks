@@ -31,7 +31,7 @@
             {% endfor %}
             {% for video in trick.videos %}
                 <div class="col-3 embed-responsive embed-responsive-16by9">
-                    <object class="col embed-responsive-item" data="http://www.youtube.com/embed/W7qWa52k-nE"></object>
+                    <object class="col embed-responsive-item" data="{{ video.url }}"></object>
                 </div>
             {% endfor %}
         </div>

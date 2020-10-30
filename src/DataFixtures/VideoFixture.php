@@ -14,38 +14,38 @@ class VideoFixture extends BaseFixture implements DependentFixtureInterface
     {
         $this->videos = [
             [
-                "url" => "https://youtu.be/Br6ZJM01I6s",
+                "url" => "https://www.youtube.com/embed/Br6ZJM01I6s",
                 "trick" => "Trick-0"
             ],[
-                "url" => "https://youtu.be/2Ul5P-KucE8",
+                "url" => "https://www.youtube.com/embed/2Ul5P-KucE8",
                 "trick" => "Trick-1",
             ],[
-                "url" => "https://youtu.be/XATkSnCFsRU",
+                "url" => "https://www.youtube.com/embed/XATkSnCFsRU",
                 "trick" => "Trick-3",
             ],[
-                "url" => "https://youtu.be/vquZvxGMJT0",
+                "url" => "https://www.youtube.com/embed/vquZvxGMJT0",
                 "trick" => "Trick-4",
             ]
         ];
     }
-  public function Load(ObjectManager $manager)
-  { 
-    foreach ($this->videos as $index => $videoData)
+
+    public function load(ObjectManager $manager)
     {
-      $video = new Video();
+        foreach ($this->videos as $index => $videoData) {
+            $video = new Video();
 
-      $video->setUrl($videoData["url"]);
-      $video->setTrick($this->getReference($videoData["trick"]));
-      $video->setAddedAt(new \DateTime());
-      $this->addReference("Video-".$index, $video);
+            $video->setUrl($videoData["url"]);
+            $video->setTrick($this->getReference($videoData["trick"]));
+            $video->setAddedAt(new \DateTime());
+            $this->addReference("Video-" . $index, $video);
 
-      $manager->persist($video);
+            $manager->persist($video);
+        }
+        $manager->flush();
     }
-    $manager->flush();
-  }
 
-  public function getDependencies()
-  {
-    return [ TrickFixture::class ];
-  }
+    public function getDependencies()
+    {
+        return [TrickFixture::class];
+    }
 }
