@@ -65,8 +65,7 @@ class ImageFixture extends BaseFixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         //Attention, avec cette méthode, le nombre d'images doit être le même que le nombre de figures !
-        foreach($this->images as $index => $imageData)
-        {
+        foreach($this->images as $index => $imageData) {
             $image = new Image();
             $trick = $this->getReference($imageData["trick"]);
             $image->setFilename($imageData["filename"]);

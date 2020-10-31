@@ -4,6 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    landing_img: '%images_directory%/mainBanner.jpeg'
+    maxPerPage: 12
+    email_manager.site_address: '%env(EMAIL_SENDER)%'
+    images_directory: 'Assets/images'
+    js_directory: 'Assets/js'
 
 services:
     # default configuration for services in *this* file

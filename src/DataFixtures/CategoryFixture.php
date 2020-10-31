@@ -18,18 +18,17 @@ class CategoryFixture extends BaseFixture
         ];
     }
 
-  public function load(ObjectManager $manager)
-  {
-
-    foreach ($this->categories as $index => $categoryData)
+    public function load(ObjectManager $manager)
     {
-      $category = new Category();
-      $category->setName($categoryData["name"]);
-      $category->setCreatedAt(new \DateTime());
-      $this->addReference("Category-".$index, $category);
 
-      $manager->persist($category);
+        foreach ($this->categories as $index => $categoryData) {
+            $category = new Category();
+            $category->setName($categoryData["name"]);
+            $category->setCreatedAt(new \DateTime());
+            $this->addReference("Category-" . $index, $category);
+
+            $manager->persist($category);
+        }
+        $manager->flush();
     }
-    $manager->flush();
-  }
 }
