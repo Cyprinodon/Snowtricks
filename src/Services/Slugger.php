@@ -12,7 +12,7 @@ class Slugger
 {
     protected $delimiter = '-';
 
-    public function __construct ()
+    public function __construct()
     {
         // Potentielles options ?
     }

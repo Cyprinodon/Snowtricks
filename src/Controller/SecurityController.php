@@ -62,12 +62,12 @@ class SecurityController extends AbstractController
             $user = $userRepository->findOneBy(['username' => $username]);
 
             //Vérifier que l'utilisateur existe avant d'envoyer le message
-            if($user != null) {
+            if ($user != null) {
                 $token = new CsrfToken($username, $user->getId().uniqid());
 
                 try {
                     $emailManager->sendPasswordReset($user->getEmail(), $token, $user);
-                } catch(TransportException $error) {
+                } catch (TransportException $error) {
                     $this->addFlash('danger', "SendGrid refuse encore et toujours d'envoyer ces damnés messages : ".$error->getMessage());
                 }
             }
@@ -91,10 +91,9 @@ class SecurityController extends AbstractController
         Request $request,
         CsrfToken $token,
         EntityManagerInterface $entityManager,
-        PasswordEncoderInterface $passwordEncoder): Response
-    {
-        if(!$this->isCsrfTokenValid($token->getId(), $token->getValue()))
-        {
+        PasswordEncoderInterface $passwordEncoder
+    ): Response {
+        if (!$this->isCsrfTokenValid($token->getId(), $token->getValue())) {
             return $this->redirectToRoute("link_expired");
         }
 
@@ -105,8 +104,7 @@ class SecurityController extends AbstractController
         $form = $this->createForm(PasswordResetType::class, $user);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $password = $form->getData();
             $user->setPassword($passwordEncoder->encodePassword($password, $user->getSalt()));
             $entityManager->flush();
@@ -115,7 +113,7 @@ class SecurityController extends AbstractController
             $this->redirectToRoute('home');
         }
 
-        return $this->render('security/passwordReset.html.twig',[
+        return $this->render('security/passwordReset.html.twig', [
             'form' => $form->createView()
         ]);
     }

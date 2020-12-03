@@ -30,7 +30,7 @@ class HomeController extends AbstractController
         return $this->render('home/home.html.twig', [
             'tricks' => $tricks,
             'page' => 1,
-            'max_pages' => ceil( $totalTricks / $maxPerPages),
+            'max_pages' => ceil($totalTricks / $maxPerPages),
             'landing_img' => $this->getParameter('landing_img'),
         ]);
     }

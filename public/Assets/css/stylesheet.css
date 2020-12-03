@@ -14,7 +14,7 @@ html {
 }
 
 .jumbotron {
-  background-image: url("../images/mainBanner.jpeg");
+  background-image: url("../../images/mainBanner.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -42,6 +42,12 @@ html {
       -webkit-box-shadow 0.15s ease-in-out;
 }
 
+.scroll {
+
+  position: absolute;
+  right: 0;
+}
+
 .landing-banner a.scroll {
   bottom: 50px;
 }
@@ -51,10 +57,25 @@ button.scroll:focus {
 }
 
 .banner-bg {
-  background-image: url("../images/mainBanner.jpeg");
+  background-image: url("../../images/mainBanner.jpeg");
   background-size: cover;
   background-position: top;
   background-repeat: no-repeat;
+}
+
+.trick-header {
+  position: relative;
+  display: block;
+}
+.trick-title {
+  text-align: center;
+  display: inline;
+  vertical-align: middle;
+  position: absolute;
+  left: 0; right: 0;bottom: 20rem;
+  color: #FFF;
+  z-index: 1;
+  margin: auto;
 }
 
 .opaque {
@@ -69,8 +90,6 @@ button.scroll:focus {
 
 .tchat {
   background-color: rgb(240, 240, 240);
-  border-bottom-right-radius: 30px;
-  border-top-left-radius: 30px;
 }
 
 .tchat-section {
@@ -102,6 +121,7 @@ button.scroll:focus {
   font-size: 200%;
 }
 
+
 .height-250 {
   max-height: 250px;
   overflow: hidden;
@@ -123,3 +143,4 @@ label.required:before {
 .extra-info {
   color: #1a82ae;
 }
+
