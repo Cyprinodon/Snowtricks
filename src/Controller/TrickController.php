@@ -73,8 +73,7 @@ class TrickController extends AbstractController
         $form = $this->createForm(MessageType::class, $comment);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
             $comment->setUser($this->getUser());
             $comment->setCreatedAt(new DateTime());
@@ -107,13 +106,11 @@ class TrickController extends AbstractController
     {
         $imagesWitness = new ArrayCollection();
         $videosWitness = new ArrayCollection();
-        foreach($trick->getImages() as $image)
-        {
+        foreach ($trick->getImages() as $image) {
             $imagesWitness->add($image);
         }
 
-        foreach($trick->getVideos() as $video)
-        {
+        foreach ($trick->getVideos() as $video) {
             $videosWitness->add($video);
         }
 
@@ -126,14 +123,11 @@ class TrickController extends AbstractController
             $videos = $form->get('videos');
 
             // Assurer l'intégrité de la base de données.
-            foreach($images as $image)
-            {
+            foreach ($images as $image) {
                 $imageEntity = $image->getData();
-                foreach($imagesWitness as $originalImage)
-                {
+                foreach ($imagesWitness as $originalImage) {
                     // Si l'image a été retirée de l'entité, trouver l'entité image et la supprimer.
-                    if(!$trick->getImages()->contains($originalImage))
-                    {
+                    if (!$trick->getImages()->contains($originalImage)) {
                         $entityManager->remove($originalImage);
                         $path = $this->getParameter("images_directory").'/'
                             .$originalImage->getFilename().'.'.$originalImage->getExtension();
@@ -142,8 +136,7 @@ class TrickController extends AbstractController
                 }
 
                 $imageFile = $image->get('file')->getData();
-                if($imageFile)
-                {
+                if ($imageFile) {
                     $fileInfo = $uploader->upload($imageFile);
                     
                     $imageEntity->setExtension($fileInfo['extension']);
@@ -154,13 +147,10 @@ class TrickController extends AbstractController
                 }
             }
 
-            foreach($videos as $video)
-            {
+            foreach ($videos as $video) {
                 $videoEntity = $video->getData();
-                foreach($videosWitness as $originalVideo)
-                {
-                    if(!$trick->getVideos()->contains($originalVideo))
-                    {
+                foreach ($videosWitness as $originalVideo) {
+                    if (!$trick->getVideos()->contains($originalVideo)) {
                         $entityManager->remove($originalVideo);
                     }
                 }

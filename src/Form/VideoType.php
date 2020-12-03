@@ -3,7 +3,6 @@
 
 namespace App\Form;
 
-
 use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

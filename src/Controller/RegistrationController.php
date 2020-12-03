@@ -23,8 +23,8 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request,
         EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder): Response
-    {
+        UserPasswordEncoderInterface $passwordEncoder
+    ): Response {
         $form = $this->createForm(RegistrationFormType::class);
         $form->handleRequest($request);
 
@@ -43,7 +43,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            $this->addFlash('success',"Votre enregistrement a bien été effectué.");
+            $this->addFlash('success', "Votre enregistrement a bien été effectué.");
             return $this->redirectToRoute('home');
         }
 

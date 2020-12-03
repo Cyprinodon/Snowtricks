@@ -6,7 +6,6 @@ use App\Entity\Category;
 use Datetime;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
-use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -101,8 +100,7 @@ class CategoryController extends AbstractController
      */
     public function delete(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
-        if($category->getTricks()->count() != 0)
-        {
+        if ($category->getTricks()->count() != 0) {
             $this->addFlash('danger', "Le groupe sélectionné ne doit contenir aucune figure avant d'être supprimé.");
             return $this->redirectToRoute('category_index');
         }
@@ -110,6 +108,5 @@ class CategoryController extends AbstractController
         $entityManager->flush();
         $this->addFlash('success', "Le groupe a été correctement supprimé.");
         return $this->redirectToRoute('category_index');
-
     }
 }
